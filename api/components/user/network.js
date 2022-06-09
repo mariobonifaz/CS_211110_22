@@ -1,24 +1,25 @@
-const { query } = require('express');
-const express = require('express');
-const response = require('/VS_Code_Trabajos/Tarea_1_CS/network/response.js');
-const { getConnection } = require('/VS_Code_Trabajos/Tarea_1_CS/Model/db.js')
 
-const router = express.Router();
+import { Router } from 'express';
+import { success } from '/VS_Code_Trabajos/Tarea_1_CS/network/response.js';
+import { getData } from '/VS_Code_Trabajos/Tarea_1_CS/Model/db.js';
+
+
+const router = Router();
 
 router.get('/list-me', async function (req, res) {
-    const client = await getConnection();
+    const client = await getData.getConnection();
 
     const query_request = {
         text: 'SELECT * FROM tbl_usersdb',
     };
     
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e, 400) })
+    .then(r => { success(req, res, r, 200) })
+    .catch(e => { success(req, res, e, 400) })
 });
 
 router.post('/register', async function (req, res) {
-    const client = await getConnection();
+    const client = await getData.getConnection();
 
     let username = req.query.username;
     let email = req.query.email;
@@ -31,24 +32,24 @@ router.post('/register', async function (req, res) {
     };
 
     client.query(query_request)
-        .then(r => { response.success(req, res, r, 200) })
-        .catch(e => { response.success(req, res, e.stack, 400) })
+        .then(r => { success(req, res, r, 200) })
+        .catch(e => { success(req, res, e.stack, 400) })
 });
 
 router.delete('/delete', async function (req, res) {
-    const client = await getConnection();
+    const client = await getData.getConnection();
 
     const query_request = {
         text: `DELETE FROM tbl_usersdb WHERE id=${req.query.id}`,
     };
 
     client.query(query_request)
-        .then(r => { response.success(req, res, r, 200) })
-        .catch(e => { response.success(req, res, e.stack, 400) })
+        .then(r => { success(req, res, r, 200) })
+        .catch(e => { success(req, res, e.stack, 400) })
 });
 
 router.put('/update', async function (req, res) {
-    const client = await getConnection();
+    const client = await getData.getConnection();
 
     let id = req.query.id;
     let username = req.query.username;
@@ -62,9 +63,9 @@ router.put('/update', async function (req, res) {
     };
 
     client.query(query_request)
-        .then(r => { response.success(req, res, r, 200) })
-        .catch(e => { response.success(req, res, e.stack, 400) })
+        .then(r => { success(req, res, r, 200) })
+        .catch(e => { success(req, res, e.stack, 400) })
 });
 
-module.exports = router;
+export default router;
 
