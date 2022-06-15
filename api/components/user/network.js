@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import { success } from '/VS_Code_Trabajos/Tarea_1_CS/network/response.js';
 import { getData } from '/VS_Code_Trabajos/Tarea_1_CS/Model/db.js';
-
+import { getUsers } from '/VS_Code_Trabajos/Tarea_1_CS/Model/Users.js';
 
 const router = Router();
 
@@ -67,7 +67,7 @@ router.put('/update', async function (req, res) {
         .catch(e => { success(req, res, e.stack, 400) })
 });
 
-//Listar Sequelize
+//List Sequelize
 router.get('/all_users_orm', async function (req, res) {
     getUsers.findAll({ attributes: ['id', 'username', 'email', 'password', 'phone_number'] })
         .then(users => {
@@ -78,7 +78,7 @@ router.get('/all_users_orm', async function (req, res) {
         })
 });
 
-//Delete Using Sequelize 
+//Delete Sequelize 
 router.delete('/delete_user_orm', async function (req, res) {
     let id = req.query.id;
     console.log("id:" + req.query.id);
@@ -95,7 +95,7 @@ router.delete('/delete_user_orm', async function (req, res) {
         });
 });
 
-//Put using Sequelize
+//Put Sequelize
 router.put('/update_user_orm', async function (req, res) {
     let id = req.query.id;
     let newDatas = req.query;
